@@ -7,6 +7,8 @@ public class Driver extends Object {
 	}
 	
 	public static void main(String[] args) {
-		
+		while (true) {
+			
+		}
 	}
 }
