@@ -1,5 +1,6 @@
 package com.hit.model;
 
+import java.util.Map;
 import java.util.Observable;
 
 public class CacheUnitModel extends Observable implements Model {
@@ -11,8 +12,9 @@ public class CacheUnitModel extends Observable implements Model {
 	}
 	
 	public <T> void updateModelData(T t) {
-		if(t == "connect") {
-			
+		if(t instanceof Map<?,?>) {
+			setChanged();
+			notifyObservers(t);
 		}
 	}
 }

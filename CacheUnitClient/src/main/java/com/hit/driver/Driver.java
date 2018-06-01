@@ -1,5 +1,6 @@
 package com.hit.driver;
 
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.IOException;
@@ -11,10 +12,16 @@ import java.net.UnknownHostException;
 import java.util.concurrent.TimeUnit;
 
 import com.hit.controller.CacheUnitController;
+import com.hit.controller.ConnectController;
 import com.hit.controller.Controller;
+import com.hit.controller.LoginController;
+import com.hit.controller.RequestController;
 import com.hit.model.CacheUnitModel;
 import com.hit.model.Model;
 import com.hit.view.CacheUnitView;
+import com.hit.view.ConnectView;
+import com.hit.view.LoginView;
+import com.hit.view.RequestView;
 import com.hit.view.View;
 
 
@@ -28,11 +35,33 @@ public class Driver extends Object {
 	
 	public static void main(String[] args) {
 		Model model = new CacheUnitModel();
-		View view = new CacheUnitView();
-		Controller controller = new CacheUnitController(view, model);
+		View mainView = new CacheUnitView();
+		Controller controller = new CacheUnitController(mainView, model);
+		
+		View connectView = new ConnectView();
+		View requestView = new RequestView();
+		View loginView = new LoginView();
+		
+		Controller connectController = new ConnectController(connectView, model);
+		Controller loginController = new LoginController(loginView, model);
+		Controller requestcontroller = new RequestController(requestView, model);
+		
+		connectView.addController((ActionListener) connectController);
+		loginView.addController((ActionListener) loginController);
+		requestView.addController((ActionListener) requestcontroller);
+		
+		((ConnectView)connectView).addObserver(connectController);
+		((LoginView)loginView).addObserver(loginController);
+		((RequestView)requestView).addObserver(requestcontroller);
+		
+		((CacheUnitModel)model).addObserver(connectController);
+		((CacheUnitModel)model).addObserver(loginController);
+		((CacheUnitModel)model).addObserver(requestcontroller);
+		
+		mainView.addController((ActionListener) controller);
 		((CacheUnitModel)model).addObserver(controller);
-		((CacheUnitView)view).addObserver(controller);
-		view.start();
+		((CacheUnitView)mainView).addObserver(controller);
+		mainView.start();
 	}
 	
 	public void run() {
