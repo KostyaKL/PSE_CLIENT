@@ -21,7 +21,7 @@ public class CacheUnitController extends Object implements Controller, ActionLis
 	}
 	
 	public void actionPerformed(ActionEvent ae) {
-		System.out.println(ae.getActionCommand());
+		//System.out.println(ae.getActionCommand());
 		switch (ae.getActionCommand()) {
 		case "Load a Request":
 			view.updateUIData("request");
@@ -48,7 +48,7 @@ public class CacheUnitController extends Object implements Controller, ActionLis
 			model.updateModelData(ud);
 		}
 		else if (obs instanceof Model) {
-			view.updateUIData(" ");
+			view.updateUIData(obj);
 		}
 	}
 }

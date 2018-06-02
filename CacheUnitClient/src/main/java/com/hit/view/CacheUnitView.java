@@ -2,12 +2,15 @@ package com.hit.view;
 
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Map;
 import java.util.Observable;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.JTextArea;
 
 public class CacheUnitView extends Observable implements View {
 
@@ -15,7 +18,7 @@ public class CacheUnitView extends Observable implements View {
 	public JButton buttonStatistics;
 	public JButton connect;
 	public JButton login;
-	public JTextField textWindow;
+	public JTextArea textWindow;
 	JFrame frame;
 	
 	public CacheUnitView() {
@@ -32,7 +35,7 @@ public class CacheUnitView extends Observable implements View {
 		panel.add(buttonStatistics);
 		frame.add("North", panel);
 		
-		textWindow = new JTextField();
+		textWindow = new JTextArea();
 		textWindow.setPreferredSize(new Dimension(500, 500));
 		frame.add("South", textWindow);
 		
@@ -51,10 +54,24 @@ public class CacheUnitView extends Observable implements View {
 		login.addActionListener(controller);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public <T> void updateUIData(T t) {
-		if(t == "connect" || t == "request" || t == "login" || t == "stat") {
-			setChanged();
-			notifyObservers(t);
+		if(t instanceof Map<?,?>) {
+			Map<String, Object> update = (Map<String, Object>) t;
+			if(update.containsKey("server")) {
+				SimpleDateFormat timeFormat = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+				Date now = new Date();
+				String msg = timeFormat.format(now) + ": " + update.get("server");
+				String box = textWindow.getText();
+				box = box + '\n' + msg;
+				textWindow.setText(box);
+			}
+		}
+		else{
+			if(t == "connect" || t == "request" || t == "login" || t == "stat") {
+				setChanged();
+				notifyObservers(t);
+			}
 		}
 	}
 }

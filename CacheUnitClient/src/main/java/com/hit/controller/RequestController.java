@@ -22,7 +22,7 @@ public class RequestController extends Object implements Controller, ActionListe
 	
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		System.out.println(ae.getActionCommand());
+		//System.out.println(ae.getActionCommand());
 		switch (ae.getActionCommand()) {
 		case "Send":
 			view.updateUIData("send");
@@ -51,15 +51,12 @@ public class RequestController extends Object implements Controller, ActionListe
 				if(ud.containsKey("mainView") && ud.get("mainView").equals("request")) {
 					view.updateUIData("request");
 				}
-				else if(ud.containsKey("requestView")) {
-					view.updateUIData(ud.get("requestView"));
-				}
 			}
 		}
-		else if (obj instanceof RequestView) {
-			Map<String, Object> ud = new HashMap<>();
-			ud.put("requestView", obj);
-			model.updateModelData(ud);
+		else if (obs instanceof RequestView) {
+			Map<String, Map<String, Map<String, String>>> request = new HashMap<>();
+			request.put("requestController", (Map<String, Map<String, String>>) obj);			
+			model.updateModelData(request);
 		}
 		
 	}

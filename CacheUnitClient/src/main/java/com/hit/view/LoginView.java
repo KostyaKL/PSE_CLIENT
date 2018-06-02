@@ -2,6 +2,8 @@ package com.hit.view;
 
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
 
 import javax.swing.JButton;
@@ -68,9 +70,37 @@ public class LoginView extends Observable implements View {
 		frame.setVisible(true);
 	}
 	
+	public void login() {
+		if(userName.getText() != null && password.getPassword() != null) {
+			Map<String, String> login = new HashMap<>();
+			login.put("username", userName.getText());
+			login.put("password", new String(password.getPassword()));
+		
+			frame.setVisible(false);
+			userName.setText("");
+			password.setText("");
+			
+			setChanged();
+			notifyObservers(login);	
+			login.clear();
+		}
+	}
+	
+	public void cancel() {
+		frame.setVisible(false);
+		userName.setText("");
+		password.setText("");
+	}
+	
 	public <T> void updateUIData(T t) {
 		if(t == "login") {
 			show();
+		}
+		else if(t == "login_button") {
+			login();
+		}
+		else if(t == "cancel") {
+			cancel();
 		}
 	}
 }
