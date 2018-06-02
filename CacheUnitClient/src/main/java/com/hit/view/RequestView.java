@@ -247,9 +247,7 @@ public class RequestView extends Observable implements View {
 			tmp.put("type", "DELETE");
 			req.put("request", tmp);
 		}
-		
-		//System.out.println(req.toString());
-		
+				
 		int size = dmID.size();
 		for(Integer i=0;i<size;i++) {
 			if(!dmID.get(i).getText().equals("")) {

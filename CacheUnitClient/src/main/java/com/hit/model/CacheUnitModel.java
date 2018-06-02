@@ -56,14 +56,14 @@ public class CacheUnitModel extends Observable implements Model {
 				
 				Integer size = data.size()-1;
 				for(Integer i =0;i<size-1;i++) {
-					request+=data.get(i.toString()).get("ID") + ",\"content\":" + data.get(i.toString()).get("content") + "},{\"dataModelId\":";
+					request+=data.get(i.toString()).get("ID") + ",\"content\":\"" + data.get(i.toString()).get("content") + "\"},{\"dataModelId\":";
 				}
 				size--;
-				request+=data.get(size.toString()).get("ID") + ",\"content\":" + data.get(size.toString()).get("content") + "}]}";
+				request+=data.get(size.toString()).get("ID") + ",\"content\":\"" + data.get(size.toString()).get("content") + "\"}]}";
 				
 				String print;
 				print = connect.send(request);
-				
+				print = data.get("request").get("type") + " request: " + print;
 				update.put("server", print);
 				setChanged();
 				notifyObservers(update);
